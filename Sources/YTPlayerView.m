@@ -71,23 +71,23 @@ NSString static *const kYTPlayerSyndicationRegexPattern = @"^https://tpc.googles
 
 @implementation YTPlayerView
 
-- (BOOL)loadWithVideoId:(NSString *)videoId {
-  return [self loadWithVideoId:videoId playerVars:nil];
+- (BOOL)loadWithVideoId:(NSString *)videoId andiFramePath:(NSString *)path {
+  return [self loadWithVideoId:videoId playerVars:nil andiFramePath:path];
 }
 
-- (BOOL)loadWithPlaylistId:(NSString *)playlistId {
-  return [self loadWithPlaylistId:playlistId playerVars:nil];
+- (BOOL)loadWithPlaylistId:(NSString *)playlistId andiFramePath:(NSString *)path {
+  return [self loadWithPlaylistId:playlistId playerVars:nil andiFramePath:path];
 }
 
-- (BOOL)loadWithVideoId:(NSString *)videoId playerVars:(NSDictionary *)playerVars {
+- (BOOL)loadWithVideoId:(NSString *)videoId playerVars:(NSDictionary *)playerVars andiFramePath:(NSString *)path {
   if (!playerVars) {
     playerVars = @{};
   }
   NSDictionary *playerParams = @{ @"videoId" : videoId, @"playerVars" : playerVars };
-  return [self loadWithPlayerParams:playerParams];
+  return [self loadWithPlayerParams:playerParams andiFramePath:path];
 }
 
-- (BOOL)loadWithPlaylistId:(NSString *)playlistId playerVars:(NSDictionary *)playerVars {
+- (BOOL)loadWithPlaylistId:(NSString *)playlistId playerVars:(NSDictionary *)playerVars andiFramePath:(NSString *)path {
 
   // Mutable copy because we may have been passed an immutable config dictionary.
   NSMutableDictionary *tempPlayerVars = [[NSMutableDictionary alloc] init];
@@ -98,7 +98,7 @@ NSString static *const kYTPlayerSyndicationRegexPattern = @"^https://tpc.googles
   }
 
   NSDictionary *playerParams = @{ @"playerVars" : tempPlayerVars };
-  return [self loadWithPlayerParams:playerParams];
+  return [self loadWithPlayerParams:playerParams andiFramePath:path];
 }
 
 #pragma mark - Player methods
@@ -709,7 +709,7 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
  *                               whether a single video or playlist is being loaded.
  * @return YES if successful, NO if not.
  */
-- (BOOL)loadWithPlayerParams:(NSDictionary *)additionalPlayerParams {
+- (BOOL)loadWithPlayerParams:(NSDictionary *)additionalPlayerParams andiFramePath:(NSString *)path {
   NSDictionary *playerCallbacks = @{
         @"onReady" : @"onReady",
         @"onStateChange" : @"onStateChange",
@@ -745,15 +745,6 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
   [self addSubview:self.webView];
 
   NSError *error = nil;
-  NSString *path = [[NSBundle bundleForClass:[YTPlayerView class]] pathForResource:@"YTPlayerView-iframe-player"
-                                                                            ofType:@"html"];
-    
-  // in case of using Swift and embedded frameworks, resources included not in main bundle,
-  // but in framework bundle
-  if (!path) {
-      path = [[[self class] frameworkBundle] pathForResource:@"YTPlayerView-iframe-player"
-                                                      ofType:@"html"];
-  }
     
   NSString *embedHTMLTemplate =
       [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
