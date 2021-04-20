@@ -18,7 +18,7 @@ let package = Package(
             name: "YouTubeiOSPlayerHelper",
             path: "Sources",
             resources: [
-                .process("Assets")
+                .copy("Assets")
             ],
             publicHeadersPath: "."
         )
