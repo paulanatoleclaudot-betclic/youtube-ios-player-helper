@@ -10,6 +10,7 @@ let package = Package(
     products: [
         .library(
             name: "YouTubeiOSPlayerHelper",
+            type: .dynamic,
             targets: ["YouTubeiOSPlayerHelper"]
         )
     ],
@@ -18,7 +19,7 @@ let package = Package(
             name: "YouTubeiOSPlayerHelper",
             path: "Sources",
             resources: [
-                .copy("Assets")
+                .process("Assets")
             ],
             publicHeadersPath: "."
         )
