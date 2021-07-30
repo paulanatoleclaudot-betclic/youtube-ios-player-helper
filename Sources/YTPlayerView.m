@@ -547,7 +547,7 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
    forNavigationAction:(WKNavigationAction *)navigationAction
         windowFeatures:(WKWindowFeatures *)windowFeatures {
   // Handle navigation actions initiated by Javascript.
-    if (@available(iOSApplicationExtension 14, *)) { } else {
+    if (@available(iOSApplicationExtension 12, *)) { } else {
         [[UIApplication sharedApplication] openURL:navigationAction.request.URL options:@{} completionHandler:nil];
     }
   // Returning nil results in canceling the navigation, which has already been handled above.
@@ -693,7 +693,7 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
   if (ytMatch || adMatch || oauthMatch || staticProxyMatch || syndicationMatch) {
     return YES;
   } else {
-      if (@available(iOSApplicationExtension 14, *)) { } else {
+      if (@available(iOSApplicationExtension 12, *)) { } else {
           [[UIApplication sharedApplication] openURL:url options:@{UIApplicationOpenURLOptionUniversalLinksOnly: @NO} completionHandler:nil];
       }
     return NO;
