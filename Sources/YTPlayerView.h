@@ -150,6 +150,7 @@ typedef void (^YTPlaybackQualityCompletionHandler)(YTPlaybackQuality result,
  * YTPlayerView::loadWithPlaylistId: or their variants to set the video or playlist
  * to populate the view with.
  */
+NS_EXTENSION_UNAVAILABLE("Youtube-ios-player-helper not supported in extensions (deprecated use of UIApplication shared)")
 @interface YTPlayerView : UIView
 
 @property(nonatomic, nullable, readonly) WKWebView *webView;
